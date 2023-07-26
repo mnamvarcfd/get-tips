@@ -1,11 +1,34 @@
-const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
+const AWS = require('aws-sdk');
+
+const { SubscribeCommand } = require("@aws-sdk/client-sns");
+const { SNSClient } = require("@aws-sdk/client-sns");
+
+const snsClient = new SNSClient({ region: process.env.REGION });
 
 AWS.config.update({ region: process.env.REGION });
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-exports.subscribeUser = async (event) => {
+const subscribeToTopic = async (topicArn, protocol, endpoint) => {
+  const params = {
+    TopicArn: topicArn,
+    Protocol: protocol,
+    Endpoint: endpoint, 
+  };
+
+  try {
+    const subscription = await snsClient.send(new SubscribeCommand(params));
+    console.log('Subscription ARN:', subscription.SubscriptionArn);
+    return subscription.SubscriptionArn;
+  } catch (error) {
+    console.error('Error subscribing to SNS topic:', error);
+    throw error;
+  }
+};
+
+
+exports.subscribeSNS = async (event) => {
   try {
     const body = JSON.parse(event.body);
 
@@ -27,8 +50,13 @@ exports.subscribeUser = async (event) => {
       },
     };
 
+
     // Put the item into the DynamoDB table
     await dynamoDB.put(item).promise();
+
+
+    await subscribeToTopic(topicArn="arn:aws:sns:ca-central-1:919622682568:quotes-message-dev", protocol="email", endpoint=email)
+
 
     return {
       statusCode: 200,

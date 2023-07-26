@@ -16,7 +16,13 @@ provider:
 
   iam:
     role:
-      statements:
+      statements:      
+        - Effect: Allow
+          Action:
+            - "SNS:Publish"
+            - "SNS:Subscribe"
+          Resource: "arn:aws:sns:ca-central-1:919622682568:quotes-message-dev"
+        
         - Effect: Allow
           Action: "SNS:Publish*"
           Resource: "*"
@@ -39,13 +45,11 @@ provider:
             - dynamodb:DeleteItem
           Resource:
             - Fn::GetAtt: [ UsersTable, Arn ]
+
   environment:
     USERS_TABLE: ${self:custom.tableName}
     REGION: ${self:provider.region} 
-    SNS_TOPIC_ARN: 
-      Fn::GetAtt:
-        - QuotesSNSTopic
-        - Arn
+    SNS_TOPIC_ARN: arn:aws:sns:ca-central-1:919622682568:quotes-message-dev
 
 functions:
   create:
@@ -64,8 +68,8 @@ functions:
           method: get
           cors: true
 
-  subscribe:
-    handler: handler/subscribeUser.subscribeUser
+  subscribeSNS:
+    handler: handler/subscribeSNS.subscribeSNS
     events:
       - http:
           path: /subscribe
@@ -94,20 +98,7 @@ resources:
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
 
-    QuotesSNSTopic:
+    SNSTopicQuotes:
       Type: AWS::SNS::Topic
       Properties:
         TopicName: quotes-message-${self:provider.stage}
-
-    QuotesSNSSubscribe:
-      Type: AWS::SNS::Subscription
-      Properties: 
-        DeliveryPolicy:
-          healthyRetryPolicy:
-            numRetries: 10
-            minDelayTarget: 10
-            maxDelayTarget: 60
-        Endpoint: mnamvarcfd@gmail.com
-        Protocol: email
-        Region: ${self:provider.region}
-        TopicArn: !Ref QuotesSNSTopic
