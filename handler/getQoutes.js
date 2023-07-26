@@ -22,7 +22,7 @@ module.exports.getQoutes = async (event) => {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*', // Adjust the CORS policy as needed
+        'Access-Control-Allow-Origin': '*', 
       },
       body: JSON.stringify(jsonData, null, 2), // Format JSON with 2 spaces indentation
     };
