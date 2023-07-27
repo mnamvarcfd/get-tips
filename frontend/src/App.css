@@ -1,0 +1,121 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("../public/background.jpg");
+  background-size: cover; 
+  background-repeat: no-repeat; 
+  background-position: center center; 
+  background-attachment: fixed;
+}
+
+.container {
+  text-align: center;
+  padding: 50px;
+}
+
+/* Rectangle.css */
+.rectangle {
+width: 500px;
+height: 100px;
+display: flex;
+flex-direction: column; 
+justify-content: center; 
+align-items: center;
+border: 1px solid #000;
+cursor: pointer;
+
+/* Set the position of the rectangle */
+position: absolute;
+top: 30%; /* Adjust the vertical position from the top */
+left: 35%; /* Adjust the horizontal position from the left */
+transform: translate(-50%, -50%); /* Center the rectangle precisely */
+
+/* Add box-shadow to create a 3D effect */
+box-shadow: 4px 4px 8px rgba(30, 153, 11, 0.666);
+
+}
+
+.rectangle-text {
+font-size: 11px;
+font-style: italic;
+font-weight: normal; /* Not bold */
+text-align: center; /* Align the text in the center of the rectangle */
+word-wrap: break-word; /* Allow the text to wrap to the next line */
+}
+
+
+.header-text {
+text-align: left;
+font-size: 8px; /* Set the font size to 11px */
+font-style: italic; /* Make the font italic */
+font-weight: normal; /* Remove bold style */
+}
+
+
+/* UserForm.css */
+.user-form {
+display: flex;
+flex-direction: column;
+align-items: center;
+position: absolute;
+bottom: 20px;
+left: 10%;
+transform: translateX(-50%);
+}
+
+
+.input-container {
+display: flex;
+flex-direction: column;
+align-items: flex-start; /* Align labels to the left side */
+margin-bottom: 10px;
+}
+
+label {
+font-size: 11px;
+margin-bottom: 5px;
+color: rgb(0, 255, 162); /* Set the label color to red */
+}
+
+
+
